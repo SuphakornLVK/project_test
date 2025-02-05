@@ -7,8 +7,8 @@ require("dotenv").config(); // READ .env
 
 // Routing
 const authRouter = require("./routes/auth-route");
+const userRouter = require("./routes/user-route");
 const app = express();
-
 
 // Middlewares
 app.use(cors()); // allow cross from others domains [can config]
@@ -17,6 +17,7 @@ app.use(express.json()); // read json
 
 //Routing
 app.use("/api", authRouter);
+app.use("/api", userRouter);
 
 // Handle Errors
 app.use(handleErrors);

@@ -16,5 +16,10 @@ router.post(
     authControllers.login
 );
 
+router.get(
+    "/current-user",
+    authControllers.currentUser
+)
+
 //export
 module.exports = router;
