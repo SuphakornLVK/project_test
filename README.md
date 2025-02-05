@@ -20,6 +20,19 @@ git init
 git add .
 git commit -m "message"
 ```
+## next step only copy code from repo only first time
+```bash
+git remote add origin [link]
+git branch -M main
+git push -u origin main
+```
+## When update code
+```bash
+git add .
+git commit -m "message"
+git push
+```
+
 
 ## Step 4 edit package.json
 
@@ -38,13 +51,13 @@ git commit -m "message"
 // import lib...
 const express = require("express");
 const cors = require("cors");
-const morgan = require("morgan");
+const morgan = require("morgan"); // Data send log libs
 require('dotenv').config() // READ .env
 
 const app = express();
 
 // Middlewares
-app.use(cors()); // allow cross domains can config
+app.use(cors()); // allow cross from others domains [can config]
 app.use(express.json()); // read json
 app.use(morgan('dev')); // Show req log
 
@@ -62,26 +75,41 @@ app.get("/api/products", (req, res) => {
 
 
 // start server
-const PORT = process.env.PORT;
+const PORT = process.env.PORT; // recieve Hidden port from .env
 app.listen(PORT, ()=> console.log(`Server is running on Port ${PORT}`));
 ```
 
-## Step 6 Routing
+## Step 6 Routing [Auth]
 
 ```Javascript
-// Routing รวบรวม ENDPOINT ต่างๆ
 const express = require("express");
-const route = express.Router()
+const router = express.Router();
+const authControllers = require("../controllers/auth-controller");
 
-Router.get('/products', (req, res) => {
-    console.log('Hello, GET Product ');
-    res.json({ message: "Hello, Product GET" });
-});
+// @ENDPOINT http://localhost:8000/api/register
+router.post("/register", authControllers.register);
+router.post("/login", authControllers.login);
 
-// exports
+//export
 module.exports = router;
 ```
+## Step 7 Create  handle error
+```Javascript
+// Handle Errors (Put this in index.js)
+app.use(handleErrors);
+// (Put this in index.js)
 
+// error.js
+const handleErrors = (err, req, res, next) => {
+    //code
+    res
+    .status(err.statusCode || 500)
+    .json({ message: err.message || "Something went wrong!!"})
+}
+
+module.exports = handleErrors
+// error.js
+```
 ## Always Check
 
 ```text
